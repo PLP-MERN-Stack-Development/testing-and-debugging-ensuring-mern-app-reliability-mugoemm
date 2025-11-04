@@ -1,5 +1,9 @@
+// jest.config.js - Root Jest configuration file for MERN Bug Tracker
+
 module.exports = {
+  // Multi-project configuration for both client and server tests
   projects: [
+    // Server-side tests configuration  
     {
       displayName: 'server',
       testEnvironment: 'node',
@@ -7,8 +11,14 @@ module.exports = {
       setupFilesAfterEnv: ['<rootDir>/server/tests/setup.js'],
       moduleFileExtensions: ['js', 'json', 'node'],
       coverageDirectory: '<rootDir>/coverage/server',
-      collectCoverageFrom: ['server/src/**/*.js', '!server/src/config/**', '!**/node_modules/**']
+      collectCoverageFrom: [
+        'server/src/**/*.js', 
+        '!server/src/config/**', 
+        '!**/node_modules/**'
+      ]
     },
+    
+    // Client-side tests configuration
     {
       displayName: 'client',
       testEnvironment: 'jsdom',
@@ -22,15 +32,29 @@ module.exports = {
         'node_modules/(?!(@testing-library/.*|@babel/.*))'
       ],
       coverageDirectory: '<rootDir>/coverage/client',
-      collectCoverageFrom: ['client/src/**/*.{js,jsx}', '!client/src/index.js', '!**/node_modules/**'],
+      collectCoverageFrom: [
+        'client/src/**/*.{js,jsx}', 
+        '!client/src/index.js', 
+        '!**/node_modules/**'
+      ],
       moduleNameMapper: {
         '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
         '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/client/src/tests/__mocks__/fileMock.js'
       }
     }
   ],
+  
+  // Global configuration
   verbose: true,
   collectCoverage: false,
   coverageReporters: ['text', 'lcov', 'html'],
+  coverageThreshold: {
+    global: {
+      statements: 70,
+      branches: 60, 
+      functions: 70,
+      lines: 70
+    }
+  },
   testTimeout: 10000
 };
